@@ -8,14 +8,11 @@ output "Cloudflare IPWhitelist Script for VMmanager 6"
 output "Copyright © 2020 Thien Tran <contact@thientran.io>."
 output "Support: https://thientran.io/discord"
 
-docker exec vm_box iptables -A INPUT -p tcp --dport 443 -j DROP
 yum -y install wget
 wget https://www.cloudflare.com/ips-v4
-for ips in `cat ips-v4`;
-do
-  iptables -I DOCKER-USER -p tcp -s ips-v4 --dport 443 -j ACCEPT
-done
 iptables -I DOCKER-USER -p tcp --dport 443 -j DROP
+iptables -I DOCKER-USER -p tcp -s $(paste -d, -s ips-v4) --dport 443 -j ACCEPT
 rm ips-v4
 
 output "Cloudflare IPv4s have been whitelisted on port 443!"
+output "To make this persistent, run this script at startup. It will also update the list of Cloudflare's IPs."
