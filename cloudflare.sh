@@ -8,7 +8,7 @@ output "Cloudflare IPWhitelist Script for VMmanager 6"
 output "Copyright © 2020 Thien Tran <contact@thientran.io>."
 output "Support: https://thientran.io/discord"
 
-yum install curl
+yum -y install curl
 iptables -I DOCKER-USER -p tcp --dport 443 -j DROP
 iptables -I DOCKER-USER -p tcp -s $(curl -sSL https://www.cloudflare.com/ips-v4 | paste -d, -s) --dport 443 -j ACCEPT
 
