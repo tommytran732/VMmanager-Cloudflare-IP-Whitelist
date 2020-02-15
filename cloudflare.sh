@@ -13,9 +13,9 @@ yum -y install wget
 wget https://www.cloudflare.com/ips-v4
 for ips in `cat ips-v4`;
 do
-  docker exec vm_box iptables -I INPUT -p tcp --dport 443 --source $ips -j ACCEPT
+  iptables -I DOCKER-USER -p tcp -s ips-v4 --dport 443 -j ACCEPT
 done
-
+iptables -I DOCKER-USER -p tcp --dport 443 -j DROP
 rm ips-v4
 
 output "Cloudflare IPv4s have been whitelisted on port 443!"
