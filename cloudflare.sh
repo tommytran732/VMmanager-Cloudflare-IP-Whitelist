@@ -16,4 +16,6 @@ do
   docker exec vm_box iptables -I INPUT -p tcp --dport 443 --source $ips -j ACCEPT
 done
 
+rm ips-v4
+
 output "Cloudflare IPv4s have been whitelisted on port 443!"
